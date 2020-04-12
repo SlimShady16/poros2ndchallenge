@@ -1,0 +1,558 @@
+1. The command line
+	cmd = textbased interface to the system 
+	*protip : setup 3 terminal, 1 for working, 1 for ancillary data, 1 for viewing
+		  manual pages
+	
+cmd e.g :
+	user@bash: ls -l /home/ryan
+	total 3
+	drwxr-xr-x  2 ryan users 4096 Mar 23 13:34 bin
+	drwxr-xr-x 18 ryan users 4096 Feb 17 09:12 Documents
+	drwxr-xr-x  2 ryan users 4096 May 05 17:25 public_html
+	user@bash: 
+	
+	#line 1 
+	user@bash -> prompt
+	ls (command) *typically the first thing you type
+	-l /home/ryan (cmd argument) * "-l" and "/home/ryan" separated by spaces
+	-l -> option (used to modify the behaviour of the command, start with a dash "-" 
+	#line 2-5
+	output from running the command
+	#line 6
+	enter another command in the prompt
+	*if no prompt is displayed, cmd must be still running
+
+	How to open terminal : Applications -> System or Applications -> Utilities
+	Alternatively you may be able to 'right-click' on the desktop and there may be
+	an option 'Open in terminal'
+
+	What is shell? Part of operating system that defines how the terminal will behave
+	and looks after running (or executing) commands
+	Most common one is BASH (Bourne Again SHell)
+	To display which shell you're using use command called echo
+	e.g : user@bash: echo $SHELL
+	      /bin/bash
+	      user@bash:
+
+	*protip :When you enter commands, they are actually stored in a history. You can 
+	traverse this history using the up and down arrow keys. So don't bother re-typing 
+	out commands you have previously entered, you can usually just hit the up arrow a 
+	few times. You can also edit these commands using the left and right arrow keys to 
+	move the cursor where you want.
+
+2. Basic navigation
+	pwd? Print Working Directory -> tells your current or working directory
+	ls? List -> plain listing of our current location
+		ls [option] [location]  *[] optional
+	user@bash: ls -l  ->  do a long listing
+	user@bash: ls -l /bin -> do a long listing of directory /bin
+	Path shortcut :
+	~ (tilde) shortcut for home directory. eg, if your home directory is /home/ryan then 
+	you could refer to the directory Documents with the path /home/ryan/Documents 
+	or ~/Documents
+	. (dot) reference to current directory
+	.. (dotdot) reference to parent directory
+	
+	user@bash: cd [location]  -> change directory *if without arg, will take you back to
+					home directory
+	*protip :auto complete path with tab, double tab to show possibilities
+	*important concepts : 
+	Relative path
+	A file or directory location relative to where we currently are in the file system.
+	Absolute path
+	A file or directory location in relation to the root of the file system.
+
+3. More about files 
+	linux is extensionless (extension doesnt matter)
+	To find out what type or directory a file is
+	user@bash: file [path]
+	*linux is case and space sensitive
+	get around spaces in names with quotes '' or backslash
+	user@bash: cd 'Holiday Photos' or user@bash: cd Holiday\ Photos
+	create hidden files by putting a dot in front of the names
+	.file.txt  .hidden  .etc
+	to list the contents of a directory, including hidden files.
+	user@bash: ls -a [directory]
+	
+4. Manual pages
+	Set of pages that explain every command available on your system.
+	Includes what they do, specifics of how your run, and what cmd line they accept.
+	eg: user@bash: man <command>
+	Keyword search to a manual pages -> user@bash: man -k <search term>
+	/<term> perform a search for 'term'
+	user@bash: n -> After performing a search within a manual page, select the next found item.
+	
+5. File manipulation	
+	To make a directory :
+	mkdir [options] <Directory>
+	mkdir -p (tells mkdir to make parent directories as needed)
+	mkdir -v (tell us what mkdir is doing 
+	To remove a directory (has to be empty):
+	rmdir [options] <Directory>
+	To create a blank file :
+	touch [options] <filename>
+	To copy a file or directory:
+	cp [options]  <source> <destination>
+	To move a file or directory:
+	mv [options] <source> <destination>
+	*you can also rename a file or directory using mv
+	To remove a file (and non empty directory):
+	rm [options] <file>
+	*When rm is run with the -r option it allows us to remove directories 
+	and all files and directories contained within.
+
+	*Linux command line does not have undo feature. Perform destructive actions carefully.
+
+6. Vi text editor
+	run vi:
+	vi <file>
+	*always opens up in edit mode
+	Press 'i' to insert mode and 'Esc' to edit mode
+	ZZ - Save and exit
+	:q! - discard all changes, since the last save, and exit
+	:w - save file but don't exit
+	:wq - save and exit
+	
+	Navigating in vi :
+	^ -move cursor to beginning of current line
+	$ -move cursor to end of of current line
+	nG -move to the nth line (eg 5G moves to 5th line)
+	G -move to the last line
+	w -move to the beginning of the next word
+	nw -move forward n word (eg 2w moves two words forwards)
+	b -move to the beginning of the previous word
+	nb -move back n word
+	{ -move backward one paragraph
+	} -move forward one paragraph
+	*type :set nu to enable line numbers
+	x - delete a single character
+	nx - delete n characters (eg 5x deletes five characters)
+	dd - delete the current line
+	dn - d followed by a movement command. Delete to where the 
+	movement command would have taken you. (eg d5w means delete 5 words)
+	u -undo
+	U -undo all change in current line
+	*A basic search in your search engine of choice for vi <insert concept here> 
+	will find you many pages with useful information.
+
+	To view file:
+	cat <file>
+	To view large file:
+	less <file>
+
+7. Wildcards
+	* - represents zero or more characters
+	? - represents a single character
+	[] - represents a range of characters
+	eg :
+	user@bash: ls 
+	barry.txt blah.txt bob example.png firstfile
+	user@bash: ls *b
+	barry.txt blah.txt bob 
+	(the example list every entry beginning with a b)
+
+8. Permissions
+	3 permissions :
+	r read - you may view the contents of the file.
+	w write - you may change the contents of the file.
+	x execute - you may execute or run the file if it is a program or script.
+
+	for every file we define 3 sets of people for whom we may specify permissions:
+	owner - a single person who owns the file. s
+	group - every file belongs to a single group.
+	others - everyone else who is not in the group or the owner.
+	
+	*to view permissions for a specific directory we use
+	user@bash: ls -ld [path]
+	*to change permissions we use
+	user@bash: chmod [permissions] [path] 
+	*only 2 people usually who may change the permission of a file or directory (the 
+	owner of the file and the root user). Root user allowed to do anything.
+
+9. Filters
+	is a program that accepts textual data and then transforms it in a particular way.
+	often have various command line options that will modify their behaviour.
+	
+	Head : a program that prints the first so many lines of it's input.
+	user@bash: head [-number of lines to input] [path]
+
+	Tail : a program that prints the last so many lines of it's input.
+	user@bash: tail [-number of lines to input] [path]
+
+	Sort : a program to sort its input (*By default it will sort alphabetically)
+	user@bash: sort [-options] [path]
+
+	nl : to number the lines
+	user@bash: nl [-options] [path]
+
+	wc : to count words
+	user@bash: [-options] [path]
+
+	cut : to print certain fields of a content (collumns)
+	user@bash: cut [-options] [path]
+
+	sed : to search and replace our data 
+	user@bash: sed <expression> [path]
+
+	uniq : to remove duplicate lines from the data:
+	user@bash: uniq [options] [path]
+	
+	tac : reverse cat (print the last line of data first, instead the first line
+	user@bash: tac [path]
+
+	*awk
+	*diff
+
+10. Grep and Regular Expressions
+	Regular expression : Program to create a pattern more powerful than wildcards.
+	Used to identify and manipulate specific pieces of data.
+	
+	egrep : a program to search a given set of data and print every line which contains 
+	a given patern *extension of a program called grep.
+	user@bash: egrep [command line options] <pattern> [path]
+	user@bash: egrep -n (to print line numbers aswell
+	user@bash: egrep -c (to know how many lines matched)
+	
+	Regular expressions :
+	. (dot) - a single character.
+	? - the preceding character matches 0 or 1 times only.
+	* - the preceding character matches 0 or more times.
+	+ - the preceding character matches 1 or more times.
+	{n} - the preceding character matches exactly n times.
+	{n,m} - the preceding character matches at least n times and not more than m times.
+	[agd] - the character is one of those included within the square brackets.
+	[^agd] - the character is not one of those included within the square brackets.
+	[c-f] - the dash within the square brackets operates as a range. In this case i	t means either the letters c, d, e or f.
+	() - allows us to group several characters to behave as one.
+	| (pipe symbol) - the logical OR operation.
+	^ - matches the beginning of the line.
+	$ - matches the end of the line.
+
+11. Piping and Redirection
+	To connect streams between programs and files to direct data in useful ways.
+	STDIN (0) - Standard input (data fed into the program)
+	STDOUT (1) - Standard output (data printed by the program, defaults to the terminal)
+	STDERR (2) - Standard error (for error messages, also defaults to the terminal)
+	( > ) indicates to the command line that we wish the programs output to be saved in
+	a file instead of printed on the screens
+
+	eg (>):
+	user@bash: ls
+	oke.txt bob lol
+	user@bash: ls > myoutput
+	user@bash: ls
+	oke.txt bob lol myoutput
+	user@bash: ls myoutput
+	oke.txt bob lol myoutput
+	
+	(>>) to get the new data to be appended to the file
+	
+	eg (>>):
+	user@bash: cat myoutput
+	7 barry.txt
+	user@bash: ls >> myoutput
+	user@bash: cat myoutput
+
+	(<) to send data the other way. Read data from the file and feed it into the program
+	via it's STDIN stream
+	
+	eg (<):
+	user@bash: wc -l myoutput
+	8 myoutput
+	user@bash: wc -l < myoutput
+	8
+
+	(2>) to redirect error messsages
+
+	eg (2>):
+	user@bash: ls -l video.mpg blah.foo
+	ls: cannot access blah.foo: No such file or directory
+	-rwxr--r-- 1 ryan users 6 May 16 09:14 video.mpg
+	user@bash: ls -l video.mpg blah.foo 2> errors.txt
+	-rwxr--r-- 1 ryan users 6 May 16 09:14 video.mpg
+	user@bash: cat errors.txt
+	ls: cannot access blah.foo: No such file or directory
+
+ 	Piping : sending data from one program to another
+	eg :
+	user@bash: ls
+	barry.txt bob lol
+	user@bash: ls | head -2
+	barry.txt	
+	bob
+	user@bash: ls | head -2 | tail -1
+	bob
+	user@bash: ls | head -2 | tail -1 > myoutput
+	user@bash: ls myoutput
+	bob
+
+12. Process management
+	user@bash: top (basically task manager for programs)
+	user@bash: ps [aux] (task manager for processes)
+
+	Killing a crashed process
+	1. Identify the process
+	2. Kill it (user@bash : kill [signal] <PID>
+	
+	eg:
+	user@bash: ps aux | grep 'firefox'
+	ryan 6978 8.8 23.5 2344096 945452 ? Sl 08:03 49:53 /usr/lib64/firefox/firefox
+	user@bash: kill 6978 (killing it softly)
+	user@bash: kill -9 6978 (kill it with a sledgehammer)
+	
+	jobs : display a list of current jobs running in the background
+	user@bash: jobs
+	
+	fg move a background process into the foreground
+	user@bash: fg
+
+	ctrl+z: pause the current foreground process and move it into the background
+
+13. Bash Scripting
+	It is a document stating what to say and do, but instead of the script being read 
+	and acted upon a person, it is read and acted upon (or executed) by the computer.
+
+	A Bash script allows us to define a series of actions which the computer will then 
+	perform without us having to enter the commands ourselves.
+
+	eg: 
+	cat myscript.sh
+	#!/bin/bash (interpreter location)
+	# A simple demonstration script
+	# Ryan 11/4/2020
+ 
+	echo Here are the files in your current directory:
+	ls
+	user@bash: ls -l myscript.sh
+	-rwxr-xr-x 1 ryan users 2 Jun 4 2012 myscript.sh
+	user@bash: ./myscript.sh
+	Here are the files in your current directory:
+	barry.txt bob example.png firstfile foo1 myoutput video.mpeg
+
+	which : to locate interpreter
+	eg:
+	user@bash: which bash
+	/bin/bash
+	user@bash: which ls
+	/usr/bin/ls
+	
+	*A good command to run to ensure your script is set up right is 
+	user@bash: chmod 755 <script>
+
+	Variables : container for a simple piece of data
+
+	user@bash: cat variable.sh
+	#!bin/bash
+	name='mico'
+	echo Hello $name
+	user@bash: ./variable.sh
+	Hello mico
+	
+	*single quotes will treat every char literally
+	*Double quotes will allow you to do substitution 
+	(that is include variables within the setting of the value).
+
+	eg:
+	user@bash: myvar='Hello World'
+	user@bash: echo $myvar
+	Hello World
+	user@bash: newvar="More $myvar"
+	user@bash: echo $newvar
+	More Hello World
+	user@bash: newvar='More $myvar'
+	user@bash: echo $newvar
+	More $myvar
+
+	There are several variables that get set automatically:
+	$0 - The name of the script.
+	$1 - $9 - Any command line arguments given to the script. 
+	$# - How many command line arguments were given to the script.
+	$* - All of the command line arguments.	
+
+	read : ask for user input
+	eg: 
+	#!/bin/bash
+	echo Hello, who am i talking to?
+	read varname
+	echo Its nice to meet you $varname
+
+	output:
+	Hello, who am i talking to?
+	Mico
+	Its nice to see you Mico
+	
+
+	`` : backticks. Used to save the output of a program into a variable
+	date : prints the date
+
+	--Arithmetic--
+	let <arithmetic expression>
+	+, -, \*, /	=addition, subtraction, multiply, divide
+	var++		=Increase the variable var by 1
+	var--		=Decrease the variable var by 1
+	%		=Modulus (Return the remainder after division)
+	eg:
+	let a=5+4
+	echo $a
+	*output : 9
+	
+	expr <item1 operator item2>
+	similar to let, but instead of saving the result, it prints the answer
+	*must have spaces between the items of the expression
+	eg:
+	expr 5 + 4
+	a=$(expr 10 - 3)
+	echo $a
+	*output : 7
+
+	${#variable} : to know how many char / length of the variables
+	eg:
+	a='Hello World'
+	echo ${#a} 
+	output: 11
+
+	--Basic if statements--
+	if [<some test>]
+	then
+		<commands>
+	fi *(end of if statement)
+	
+	eg: ./if_example.sh
+	if[%1 -gt 100]
+	then 
+		echo Hey thats a large number
+	fi
+
+	output:
+	user@bash: ./if_example.sh 150
+	Hey thats a large number
+
+	--Nested if--
+	if [<some test>]
+	then
+		if [<some test>]
+		then
+			<commands>
+		fi
+	fi
+	
+	--Else if--
+	if [ <some test> ]
+	then
+		<commands>
+	elif [ <some test> ]
+	then
+		<different commands>
+	else
+		<other commands>
+	fi
+
+	--Boolean Operations--	
+	if [ <some test> ] && [ <some test> ]
+	then
+		<commands>
+	fi
+
+	--Switch case--
+	case <variable> in
+	<pattern 1>)
+		<commands>
+		;;
+	<pattern 2>)
+		<other commands>
+		;;
+	esac
+
+	--While--
+	while [ <some test> ]
+	do
+		<commands>
+	done
+
+	--Until--
+	until [ <some test> ]
+	do
+		<commands>
+	done
+	
+	--For--
+	for var in <list>
+	do
+		<commands>
+	done
+	*you can do variables and range of value
+	eg: for value in {1..5}
+
+	*use break to leave the loop straight away
+	*use continue to stop running through this iteration of loop and 
+	begin the next iteration
+
+	--select--
+	select var in <list>
+	do
+		<commands>
+	done
+
+	eg:  select_example.sh
+	names='Kyle Cartman Stan Quit'
+	PS3='Select character: '
+	select name in $names
+	do
+		if [ $name == 'Quit' ]
+		then
+			break
+		fi
+		echo Hello $name
+	done
+	echo Bye
+	
+	output: 
+	user@bash: ./select_example.sh
+	1) Kyle     3) Stan
+	2) Cartman  4) Quit
+	Select character: 2
+	Hello Cartman
+	Select Character: 1
+	Hello Kyle
+	Select character: 4
+	Bye
+
+	--method or functions--
+	function_name () {
+		<commands>
+	}
+
+	eg: ./examplemethod
+	print_something(){
+		echo Hello world
+	}
+	print_something
+
+	output:
+	user@bash: ./examplemethod
+	Hello world
+
+	*Passing an argument + return value:
+	eg: ./examplemethod2
+	print_something () {
+	echo Hello $1
+	return 5
+	}
+	print_something yoi
+	print_something oke
+	echo return value is $
+
+	output:
+	user@bash: ./examplemethod2
+	Hello yoi
+	Hello oke
+	return value is 5
+		
+	--local variable/private variable--
+	local var_name=<var_value>
+	
+	*command <command>
+	Run the command with that name as opposed to the function with the same name.
+
+	*tput : a command which allows you to control the cursor on the terminal and 
+	the format of content that is printed
